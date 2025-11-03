@@ -3,6 +3,8 @@ const { pool } = require('../src/db');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
 const router = express.Router();
+const { authenticateToken } = require('../authentication/authentication'); // Correct import
+const {checkRole} = require('../authentication/checkRole')
 require('dotenv').config();
 router.get('/', async (req:any, res:any) => {
   try {
@@ -19,7 +21,7 @@ router.post('/register', async (req:any, res:any) => {
   try {
     const requestTime = new Date();
     const istDateTime = requestTime.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
-    const { username, full_name, email, phone, password } = req.body;
+    const { username, full_name, email, phone, password, role} = req.body;
 
     if (!username || !full_name || !email || !phone || !password) {
       return res.status(400).json({ error: 'Missing required fields' });
@@ -29,10 +31,10 @@ router.post('/register', async (req:any, res:any) => {
     const hashedPassword = await bcrypt.hash(password, saltRounds);
     
     const result = await pool.query(
-      `INSERT INTO users (username, full_name, email, phone, password_hash, created_at)
-       VALUES ($1, $2, $3, $4, $5, $6)
+      `INSERT INTO users (username, full_name, email, phone, password_hash, role, created_at)
+       VALUES ($1, $2, $3, $4, $5, $6, $7)
        RETURNING user_id, username, full_name, email, phone, created_at`,
-      [username, full_name, email, phone, hashedPassword, istDateTime]
+      [username, full_name, email, phone, hashedPassword, role, istDateTime]
     );
 
     res.status(201).json({
@@ -79,4 +81,23 @@ router.post('/login', async(req:any, res:any)=>{
   }
 })
 
+router.post('/addMovie', authenticateToken, checkRole, async(req:any,res:any,next:any)=>{
+  try{
+    const {title, description, duration, genre, language, rating, release_date} = req.body;
+    if(!title || !description || !duration || !genre || !language || !rating || !release_date){
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    const result = await pool.query(
+      `INSERT INTO movies (title, description, duration_minutes, genre, language, rating, release_date)
+       VALUES ($1, $2, $3, $4, $5, $6, $7)
+       RETURNING title, description, duration_minutes, genre, language, rating, release_date`,
+      [title, description, duration, genre, language, rating, release_date]
+    );
+    res.status(200).json({message: "Movie Added"})
+  }
+  catch(error){
+    console.error('Error adding screen:', error);
+  }
+})
 module.exports = router;
