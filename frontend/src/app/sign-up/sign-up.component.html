@@ -1,1 +1,24 @@
-<p>sign-up works!</p>
+<app-header></app-header>
+
+<form (ngSubmit)="onSubmit()">
+  <label>Username:</label>
+  <input type="text" [(ngModel)]="signUpInfo.enteredUsername" name="username" />
+
+  <label>Full Name:</label>
+  <input type="text" [(ngModel)]="signUpInfo.entered_full_Name" name="fullName" />
+
+  <label>Email:</label>
+  <input type="email" [(ngModel)]="signUpInfo.enteredEmail" name="email" />
+
+  <label>Phone Number:</label>
+  <input type="tel" [(ngModel)]="signUpInfo.enteredPhoneNumber" name="phone" />
+
+  <label>Password:</label>
+  <input type="password" [(ngModel)]="signUpInfo.enteredPass" name="password" />
+
+  <label>Role:</label>
+  <input type="text" [(ngModel)]="signUpInfo.enteredRole" name="role" />
+
+  <button type="submit">Sign Up</button>
+</form>
+

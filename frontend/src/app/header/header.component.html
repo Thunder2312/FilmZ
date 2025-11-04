@@ -1,4 +1,8 @@
 <div class="header">
   <img src="assets/logo-transparent.png" alt="Logo">
-  <button (click)="goToLogin()">Login</button>
+
+  <div class="header-buttons">
+    <button *ngIf="!isLoginPage" (click)="goToLogin()">Login</button>
+    <button *ngIf="!isSignUpPage" (click)="goToSignUp()">Sign Up</button>
+  </div>
 </div>
