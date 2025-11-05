@@ -1,8 +1,8 @@
 export interface signUpData{
-    enteredUsername: string,
-    entered_full_Name: string
-    enteredEmail: string,
-    enteredPhoneNumber: string,
-    enteredPass: string,
-    enteredRole: string
+    username: string,
+    full_name: string
+    email: string,
+    phone: string,
+    password: string,
+    role: string
 }

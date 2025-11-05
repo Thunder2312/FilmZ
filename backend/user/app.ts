@@ -58,7 +58,7 @@ router.post('/login', async(req:any, res:any)=>{
     const result = await pool.query(`SELECT * from users where username=$1`,[username])
     const user = result.rows[0];
     //compare password
-    const isMatch = await bcrypt.compare(password, user.password_hash);
+    const isMatch = await bcrypt.compare(password, user.hash);
 
     if(!isMatch){
       return res.status(401).json({ error: 'Invalid username or password' });

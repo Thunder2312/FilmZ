@@ -6,14 +6,15 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-
+import { PasswordToggleDirective } from '../directives/password-toggle.directive';
 @Component({
   selector: 'app-login-card',
   imports: [
     CommonModule,
     FormsModule,
     HttpClientModule,
-    HeaderComponent
+    HeaderComponent,
+    PasswordToggleDirective
 ],
   templateUrl: './login-card.component.html',
   styleUrl: './login-card.component.scss',
@@ -50,7 +51,8 @@ export class LoginCardComponent {
         sessionStorage.setItem('jwtToken', token); // Store JWT
         sessionStorage.setItem('username', loginData.username)
         this.trueLogin = true;
-        this.router.navigate(['']);
+        console.log('Logged in', res)
+        this.router.navigate(['/admin/dashboard']);
       } else {
         this.loginError = 'Login failed: No token received.';
       }

@@ -1,1 +1,6 @@
-<p>admin-home works!</p>
+<app-header></app-header>
+<form (ngSubmit)="onSearch()" autocomplete="off">
+<input type="search" id="search-input" name="q" placeholder="Search..." [(ngModel)]="search_text">
+  <button type="submit">Search</button>
+
+</form>
