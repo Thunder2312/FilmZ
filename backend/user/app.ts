@@ -31,10 +31,10 @@ router.post('/register', async (req:any, res:any) => {
     const hashedPassword = await bcrypt.hash(password, saltRounds);
     
     const result = await pool.query(
-      `INSERT INTO users (username, full_name, email, phone, hash, role, created_at)
-       VALUES ($1, $2, $3, $4, $5, $6, $7)
+      `INSERT INTO users (username, full_name, email, phone, hash, created_at)
+       VALUES ($1, $2, $3, $4, $5, $6)
        RETURNING user_id, username, full_name, email, phone, created_at`,
-      [username, full_name, email, phone, hashedPassword, role, istDateTime]
+      [username, full_name, email, phone, hashedPassword, istDateTime]
     );
 
     res.status(201).json({
@@ -58,6 +58,11 @@ router.post('/login', async(req:any, res:any)=>{
     const result = await pool.query(`SELECT * from users where username=$1`,[username])
     const user = result.rows[0];
     //compare password
+    const approved = user.role_approval;
+
+    if(!approved){
+      return res.status(403).json({message: "Kindly wait for approval from admins"})
+    }
     const isMatch = await bcrypt.compare(password, user.hash);
 
     if(!isMatch){
@@ -83,16 +88,16 @@ router.post('/login', async(req:any, res:any)=>{
 
 router.post('/addMovie', authenticateToken, checkRole, async(req:any,res:any,next:any)=>{
   try{
-    const {title, description, duration, genre, language, rating, release_date} = req.body;
-    if(!title || !description || !duration || !genre || !language || !rating || !release_date){
+    const {title, description, duration, genre, language, rated, release_date} = req.body;
+    if(!title || !description || !duration || !genre || !language || !rated || !release_date){
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
     const result = await pool.query(
-      `INSERT INTO movies (title, description, duration_minutes, genre, language, rating, release_date)
+      `INSERT INTO movies (title, description, duration_minutes, genre, language, rated, release_date)
        VALUES ($1, $2, $3, $4, $5, $6, $7)
-       RETURNING title, description, duration_minutes, genre, language, rating, release_date`,
-      [title, description, duration, genre, language, rating, release_date]
+       RETURNING title, description, duration_minutes, genre, language, rated, release_date`,
+      [title, description, duration, genre, language, rated, release_date]
     );
     res.status(200).json({message: "Movie Added"})
   }

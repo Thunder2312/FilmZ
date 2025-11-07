@@ -1,0 +1,27 @@
+import { Component } from '@angular/core';
+import { HeaderComponent } from "../../header/header.component";
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { FormsModule } from "@angular/forms";
+import { CommonModule } from '@angular/common';
+import { RouterModule, RouterOutlet } from '@angular/router';
+@Component({
+  selector: 'app-admin-home',
+  imports: [HeaderComponent, HttpClientModule, FormsModule, CommonModule, RouterModule],
+  templateUrl: './admin-home.component.html',
+  styleUrls: ['./admin-home.component.scss']
+})
+export class AdminHomeComponent {
+isMenuOpen = false;
+
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  links = [
+  { label: 'Add Movies', path: 'new-movie' },
+  { label: 'Add Movies in Theatres', path: 'theatre' },
+  { label: 'Add ShowTimes', path: 'showtime' },
+  { label: 'Admin Approval', path: 'approval' }
+];
+
+}

@@ -52,7 +52,7 @@ export class LoginCardComponent {
         sessionStorage.setItem('username', loginData.username)
         this.trueLogin = true;
         console.log('Logged in', res)
-        this.router.navigate(['/admin/dashboard']);
+        this.router.navigate(['/admin']);
       } else {
         this.loginError = 'Login failed: No token received.';
       }
@@ -60,8 +60,11 @@ export class LoginCardComponent {
     error: (err:any) => {
       if (err.status === 401) {
         this.loginError = 'Invalid username or password.';
-      } else {
+      } else if(err.status == 500) {
         this.loginError = 'Server error. Please try again later.';
+      }
+      else{
+        this.loginError = err.error.message;
       }
       console.error('Error saving login data:', err);
     },
