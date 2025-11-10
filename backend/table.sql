@@ -26,7 +26,7 @@ CREATE TABLE movies (
     duration_minutes INT NOT NULL,
     genre VARCHAR(50),
     language VARCHAR(50),
-    rating VARCHAR(10), -- e.g. PG-13, R
+    rated VARCHAR(10), -- e.g. PG-13, R
     release_date DATE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

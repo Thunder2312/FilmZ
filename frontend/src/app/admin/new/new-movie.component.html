@@ -5,34 +5,36 @@
     name="q"
     placeholder="Search movies..."
     [(ngModel)]="search_text"
-  >
+  />
   <button type="submit">Search</button>
 </form>
-
-<div class="movie-results" *ngIf="showResults.length > 0; else noResults">
-  @for (movie of showResults; track movie.imdbID) {
-    <div class="movie-card">
-      <img [src]="movie.Poster" alt="Poster">
-      <div class="movie-details">
-        <h2>{{ movie.Title }}</h2>
-        <p><strong>Year:</strong> {{ movie.Year }}</p>
-        <p><strong>Rated:</strong> {{ movie.Rated }}</p>
-        <p><strong>Released:</strong> {{ movie.Released }}</p>
-        <p><strong>Runtime:</strong> {{ movie.Runtime }}</p>
-        <p><strong>Genre:</strong> {{ movie.Genre }}</p>
-        <p><strong>Director:</strong> {{ movie.Director }}</p>
-        <p><strong>Writer:</strong> {{ movie.Writer }}</p>
-        <p><strong>Actors:</strong> {{ movie.Actors }}</p>
-        <p><strong>Plot:</strong> {{ movie.Plot }}</p>
-        <p><strong>Language:</strong> {{ movie.Language }}</p>
-        <p><strong>Country:</strong> {{ movie.Country }}</p>
-      </div>
+ <div class="movie-results">
+@if (movieDetails?.length> 0){
+  @for (movie of movieDetails; track movie.imdbID){
+   
+  <div class="movie-card">
+    <img [src]="movie.Poster !== 'N/A' ? movie.Poster : 'assets/no-image.png'" alt="Poster" />
+    <div class="movie-details" (click)="addMovie()" >
+      <h2>{{ movie.Title }}</h2>
+      <p><strong>Year:</strong> {{ movie.Year }}</p>
+      <p><strong>Rated:</strong> {{ movie.Rated }}</p>
+      <p><strong>Released:</strong> {{ movie.Released }}</p>
+      <p><strong>Runtime:</strong> {{ movie.Runtime }}</p>
+      <p><strong>Genre:</strong> {{ movie.Genre }}</p>
+      <p><strong>Director:</strong> {{ movie.Director }}</p>
+      <p><strong>Writer:</strong> {{ movie.Writer }}</p>
+      <p><strong>Actors:</strong> {{ movie.Actors }}</p>
+      <p><strong>Plot:</strong> {{ movie.Plot }}</p>
+      <p><strong>Language:</strong> {{ movie.Language }}</p>
+      <p><strong>Country:</strong> {{ movie.Country }}</p>
     </div>
-  }
-</div>
+  </div>
+  }    
+}
+@else{
+       <p *ngIf="search_text">No movies found.</p>
+}
 
+<button (click)="addMovie()">Add New Movie?</button>
 
-<ng-template #noResults>
-  <p *ngIf="search_text">No movies found.</p>
-</ng-template> 
 

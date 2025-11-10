@@ -51,7 +51,7 @@ export class LoginCardComponent {
         sessionStorage.setItem('jwtToken', token); // Store JWT
         sessionStorage.setItem('username', loginData.username)
         this.trueLogin = true;
-        console.log('Logged in', res)
+        console.log('Logged in')
         this.router.navigate(['/admin']);
       } else {
         this.loginError = 'Login failed: No token received.';

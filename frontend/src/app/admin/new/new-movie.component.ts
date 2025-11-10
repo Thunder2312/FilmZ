@@ -1,35 +1,50 @@
 import { Component } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { HeaderComponent } from '../../header/header.component';
-import { RouterOutlet } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { forkJoin } from 'rxjs';
+import {MatDialog, MatDialogModule, MatDialogConfig} from '@angular/material/dialog';
+import { MovieDialogComponent } from '../movie-dialog/movie-dialog.component';
 @Component({
   selector: 'app-new-movie',
-  imports: [HttpClientModule, FormsModule, CommonModule, HeaderComponent, RouterOutlet],
   templateUrl: './new-movie.component.html',
-  styleUrl: './new-movie.component.scss'
+  styleUrls: ['./new-movie.component.scss'],
+  imports: [CommonModule, FormsModule, HttpClientModule, MatDialogModule ]
 })
 export class NewMovieComponent {
- search_text = '';
-  showResults: any[] = [];
+  search_text = '';
+  movieDetails: any = null; // single movie
   apiKey = 'lol';
-  movieDetails: any;
-  constructor(private http: HttpClient) {}
 
- onSearch() {
-  const title = this.search_text.trim();
-  if (!title) return;
+  constructor(private http: HttpClient, private dialog: MatDialog) {}
+  
 
-  this.http
-    .get<any>(`https://www.omdbapi.com/?t=${encodeURIComponent(title)}&apikey=${this.apiKey}`)
-    .subscribe((data) => {
-      if (data && data.Response !== 'False') {
-        this.movieDetails = data; // show in UI
-      } else {
-        this.movieDetails = null;
-      }
-    });
-}
 
+  onSearch() {
+    const title = this.search_text.trim();
+    if (!title) return;
+
+    this.http
+      .get<any>(`https://www.omdbapi.com/?s=${encodeURIComponent(title)}&apikey=${this.apiKey}&type=movie`)
+      .subscribe((data) => {
+        if (data && data.Response !== 'False') {
+          const ids = data.Search.map((movie:any)=> movie.imdbID); //map ids to variable from multiple titles
+          
+          const requests = ids.map((id: any) => this.http.get(`https://www.omdbapi.com/?i=${id}&apikey=${this.apiKey}`));
+
+          forkJoin(requests).subscribe((movies)=>{
+            this.movieDetails = movies;
+            console.log('Full Movie Details')
+          })
+        } else {
+          this.movieDetails = [];
+        }
+      });
+  }
+
+
+
+  addMovie(){
+    console.log("How do you do")
+  }
 }
