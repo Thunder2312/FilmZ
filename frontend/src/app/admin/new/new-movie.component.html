@@ -6,7 +6,10 @@
     placeholder="Search movies..."
     [(ngModel)]="search_text"
   />
+
+
   <button type="submit">Search</button>
+  <button (click)="addMovie()">Add New Movie?</button>
 </form>
  <div class="movie-results">
 @if (movieDetails?.length> 0){
@@ -35,6 +38,5 @@
        <p *ngIf="search_text">No movies found.</p>
 }
 
-<button (click)="addMovie()">Add New Movie?</button>
 
 

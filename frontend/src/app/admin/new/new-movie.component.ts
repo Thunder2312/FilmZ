@@ -14,7 +14,7 @@ import { MovieDialogComponent } from '../movie-dialog/movie-dialog.component';
 export class NewMovieComponent {
   search_text = '';
   movieDetails: any = null; // single movie
-  apiKey = 'lol';
+  apiKey = '62cbea78'
 
   constructor(private http: HttpClient, private dialog: MatDialog) {}
   
@@ -44,7 +44,7 @@ export class NewMovieComponent {
 
 
 
-  addMovie(){
-    console.log("How do you do")
+  movieDialog(){
+    console.log('Div click works')
   }
 }

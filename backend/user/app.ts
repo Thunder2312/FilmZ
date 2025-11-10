@@ -58,10 +58,11 @@ router.post('/login', async(req:any, res:any)=>{
     const result = await pool.query(`SELECT * from users where username=$1`,[username])
     const user = result.rows[0];
     //compare password
-    const approved = user.role_approval;
+    const approved = user.approval;
 
     if(!approved){
-      return res.status(403).json({message: "Kindly wait for approval from admins"})
+      return res.status(403).json({message: `Kindly wait for approval from admins`})
+      
     }
     const isMatch = await bcrypt.compare(password, user.hash);
 
