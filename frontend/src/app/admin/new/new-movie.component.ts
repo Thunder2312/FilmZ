@@ -9,7 +9,7 @@ import { MovieDialogComponent } from '../movie-dialog/movie-dialog.component';
   selector: 'app-new-movie',
   templateUrl: './new-movie.component.html',
   styleUrls: ['./new-movie.component.scss'],
-  imports: [CommonModule, FormsModule, HttpClientModule, MatDialogModule ]
+  imports: [CommonModule, FormsModule, HttpClientModule, MatDialogModule, MovieDialogComponent ]
 })
 export class NewMovieComponent {
   search_text = '';
@@ -45,6 +45,14 @@ export class NewMovieComponent {
 
 
   movieDialog(){
-    console.log('Div click works')
+    this.dialog.open(MovieDialogComponent, {
+  width: '80vw',           // ✅ relative to viewport
+  maxWidth: '900px',       // ✅ keeps it readable on big screens
+  height: 'auto',          // ✅ let content define height
+  maxHeight: '90vh',       // ✅ never exceed viewport height
+  panelClass: 'movie-dialog-container',  // ✅ custom class for styling
+  autoFocus: false         // ✅ prevents input auto-scroll
+});
+
   }
 }

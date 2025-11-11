@@ -7,9 +7,8 @@
     [(ngModel)]="search_text"
   />
 
-
   <button type="submit">Search</button>
-  <button (click)="addMovie()">Add New Movie?</button>
+  <button mat-raised-button (click)="movieDialog()">Add New Movie?</button>
 </form>
  <div class="movie-results">
 @if (movieDetails?.length> 0){
@@ -17,7 +16,7 @@
    
   <div class="movie-card">
     <img [src]="movie.Poster !== 'N/A' ? movie.Poster : 'assets/no-image.png'" alt="Poster" />
-    <div class="movie-details" (click)="addMovie()" >
+    <div class="movie-details" (click)="movieDialog()" >
       <h2>{{ movie.Title }}</h2>
       <p><strong>Year:</strong> {{ movie.Year }}</p>
       <p><strong>Rated:</strong> {{ movie.Rated }}</p>

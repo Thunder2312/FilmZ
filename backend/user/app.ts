@@ -58,7 +58,7 @@ router.post('/login', async(req:any, res:any)=>{
     const result = await pool.query(`SELECT * from users where username=$1`,[username])
     const user = result.rows[0];
     //compare password
-    const approved = user.approval;
+    const approved = user.role_approval;
 
     if(!approved){
       return res.status(403).json({message: `Kindly wait for approval from admins`})
@@ -87,10 +87,16 @@ router.post('/login', async(req:any, res:any)=>{
   }
 })
 
+router.delete('/logout', (req:any, res:any) => {
+  // Client should just discard the token
+  res.status(200).json({ message: 'Logged out successfully. Discard the token on client.' });
+});
+
+
 router.post('/addMovie', authenticateToken, checkRole, async(req:any,res:any,next:any)=>{
   try{
-    const {title, description, duration, genre, language, rated, release_date} = req.body;
-    if(!title || !description || !duration || !genre || !language || !rated || !release_date){
+    const {title, description, duration_minutes, genre, language, rated, release_date} = req.body;
+    if(!title || !description || !duration_minutes || !genre || !language || !rated || !release_date){
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
@@ -98,7 +104,7 @@ router.post('/addMovie', authenticateToken, checkRole, async(req:any,res:any,nex
       `INSERT INTO movies (title, description, duration_minutes, genre, language, rated, release_date)
        VALUES ($1, $2, $3, $4, $5, $6, $7)
        RETURNING title, description, duration_minutes, genre, language, rated, release_date`,
-      [title, description, duration, genre, language, rated, release_date]
+      [title, description, duration_minutes, genre, language, rated, release_date]
     );
     res.status(200).json({message: "Movie Added"})
   }

@@ -22,7 +22,7 @@ async function checkRole(req:any, res:any, next:any){
         
         const user = result.rows[0];
         //check role
-        if (user.role !== 'admin') {
+        if (user.role_approval !== true) {
             return res.status(403).json({ message: 'Access denied' });
         }
         next();
