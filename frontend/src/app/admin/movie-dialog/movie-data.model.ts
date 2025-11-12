@@ -5,5 +5,6 @@ export interface MovieData {
   genre: string;
   language: string;
   rated: string;
+  img_link: string,
   release_date: string;
 }

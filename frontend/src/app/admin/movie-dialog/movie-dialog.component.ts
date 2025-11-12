@@ -17,6 +17,7 @@ export class MovieDialogComponent {
   genre: '',
   language: '',
   rated: '',
+  img_link: '',
   release_date: ''
   };
 
@@ -49,6 +50,7 @@ export class MovieDialogComponent {
             genre: '',
             language: '',
             rated: '',
+            img_link: '',
             release_date: ''
           };
         },

@@ -46,13 +46,24 @@ export class NewMovieComponent {
 
   movieDialog(){
     this.dialog.open(MovieDialogComponent, {
-  width: '80vw',           // ✅ relative to viewport
-  maxWidth: '900px',       // ✅ keeps it readable on big screens
-  height: 'auto',          // ✅ let content define height
-  maxHeight: '90vh',       // ✅ never exceed viewport height
-  panelClass: 'movie-dialog-container',  // ✅ custom class for styling
-  autoFocus: false         // ✅ prevents input auto-scroll
+  width: '80vw',           // relative to viewport
+  maxWidth: '900px',       //  keeps it readable on big screens
+  height: 'auto',          // let content define height
+  maxHeight: '90vh',       // never exceed viewport height
+  panelClass: 'movie-dialog-container',  // custom class for styling
+  autoFocus: false         // prevents input auto-scroll
 });
+  }
 
+  knownDialog(movie:any){
+    this.dialog.open(MovieDialogComponent, {
+  width: '80vw',           // relative to viewport
+  maxWidth: '900px',       //  keeps it readable on big screens
+  height: 'auto',          // let content define height
+  maxHeight: '90vh',       // never exceed viewport height
+  panelClass: 'movie-dialog-container',  // custom class for styling
+  autoFocus: false , // prevents input auto-scroll
+  data: movie        
+});
   }
 }

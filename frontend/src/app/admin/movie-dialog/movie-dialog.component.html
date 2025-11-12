@@ -87,6 +87,18 @@
       <div class="floating-label">
         <input
           type="text"
+          name="image"
+          id="image"
+          placeholder="Link....."
+          [(ngModel)]="movieData.img_link"
+          required
+        />
+        <label for="rated">Image Link/Image</label>
+      </div>
+
+      <div class="floating-label">
+        <input
+          type="text"
           name="rated"
           id="rated"
           placeholder="Rated"

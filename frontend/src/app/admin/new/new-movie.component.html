@@ -16,7 +16,7 @@
    
   <div class="movie-card">
     <img [src]="movie.Poster !== 'N/A' ? movie.Poster : 'assets/no-image.png'" alt="Poster" />
-    <div class="movie-details" (click)="movieDialog()" >
+    <div class="movie-details" (click)="knownDialog(movie)" >
       <h2>{{ movie.Title }}</h2>
       <p><strong>Year:</strong> {{ movie.Year }}</p>
       <p><strong>Rated:</strong> {{ movie.Rated }}</p>
