@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-add-movie',
@@ -21,24 +22,29 @@ export class MovieDialogComponent {
   release_date: ''
   };
 
-  constructor(private http: HttpClient) {}
+  
+
+  constructor(private http: HttpClient, 
+    private dialogRef: MatDialogRef<MovieDialogComponent>, 
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+  if (data) {
+    this.movieData = {
+      title: data.Title || '',
+      description: data.Plot || '',
+      duration_minutes: parseInt(data.Runtime) || 0,
+      genre: data.Genre || '',
+      language: data.Language || '',
+      rated: data.Rated || '',
+      img_link: data.Poster || '',
+      release_date: this.changeDate(data.Released) || '', // formatted for input
+    };
+  }
+}
+
+  
 
   onsubmit() {
-    // Get token from localStorage (or wherever you store it)
-    const token = sessionStorage.getItem('jwtToken');
-
-
-    if (!token) {
-      console.log('No authentication token found.');
-      console.log('Token:', token);
-      return;
-    }
-
-    // Add Authorization header
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-
-    // Send POST request to backend
-    this.http.post('http://localhost:3000/user/addMovie', this.movieData, { headers })
+    this.http.post('http://localhost:3000/user/addMovie', this.movieData)
       .subscribe({
         next: (res: any) => {
           console.log('Movie Added Successfully:', res.message || res);
@@ -70,4 +76,19 @@ export class MovieDialogComponent {
         },
       });
   }
+
+  changeDate(Released: string | Date): string {
+  const date2 = new Date(Released);
+
+  if (isNaN(date2.getTime())) return '';
+
+  const day = String(date2.getDate()).padStart(2, '0');
+  const month = String(date2.getMonth() + 1).padStart(2, '0');
+  const year = date2.getFullYear();
+
+  return `${year}-${month}-${day}`; // Correct format for <input type="date">
+}
+
+
+ 
 }

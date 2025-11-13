@@ -40,16 +40,16 @@
       </div>
 
         <div class="floating-label">
-            <label for="description">Description</label>  
-            <textarea
-            name="description"
-            rows="3"
-            [(ngModel)]="movieData.description"
-            required
-            >              
-        </textarea>   
-        
-      </div>
+  <textarea
+    name="description"
+    id="description"
+    rows="3"
+    [(ngModel)]="movieData.description"
+    required
+  ></textarea>
+  <label for="description">Description</label>
+</div>
+
       <div class="floating-label">
         <input
           type="number"

@@ -22,7 +22,7 @@ isMenuOpen = false;
   { label: 'Add Movies in Theatres', path: 'theatre' },
   { label: 'Add ShowTimes', path: 'showtime' },
   { label: 'Admin Approval', path: 'approval' },
-  {label: 'Edit/Delete Movie', path: 'edit-delete'}
+  {label: 'Manage Movie', path: 'manage-movie'}
 ];
 
 }

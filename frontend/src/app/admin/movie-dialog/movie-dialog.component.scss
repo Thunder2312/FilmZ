@@ -1,6 +1,4 @@
-/* =======================
-   GLOBAL STYLES
-======================= */
+
 * {
   box-sizing: border-box;
   font-family: -apple-system, BlinkMacSystemFont, "San Francisco", Helvetica, Arial, sans-serif;
@@ -18,9 +16,7 @@ html, body {
   padding: 40px 0;
 }
 
-/* =======================
-   CONTAINER
-======================= */
+
  .session {
   display: flex;
    flex-direction: row;
@@ -33,9 +29,7 @@ html, body {
    transition: all 0.3s ease;
  }
 
-/* =======================
-   LEFT PANEL (IMAGE + LOGO)
-======================= */
+
 .left {
   width: 220px;
   background-image: url("https://images.pexels.com/photos/114979/pexels-photo-114979.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
@@ -50,9 +44,7 @@ html, body {
   margin: 20px;
 }
 
-/* =======================
-   FORM SECTION
-======================= */
+
 form {
   flex: 1;
   display: flex;
