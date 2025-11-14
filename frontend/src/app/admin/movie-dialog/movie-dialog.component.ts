@@ -44,7 +44,7 @@ export class MovieDialogComponent {
   
 
   onsubmit() {
-    this.http.post('http://localhost:3000/user/addMovie', this.movieData)
+    this.http.post('http://localhost:3000/movies/addMovie', this.movieData)
       .subscribe({
         next: (res: any) => {
           console.log('Movie Added Successfully:', res.message || res);

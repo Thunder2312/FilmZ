@@ -1,16 +1,56 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<div class="RUD">
-
 <table class="action-table">
-  <tr>
-    <th>Movie Title</th>
-    <th>Edit</th>
-    <th>Delete</th>
-  </tr>
-  <tr>
-    <td>Alfreds Futterkiste</td>
-    <td><i class="fa fa-pencil" style="font-size:24px"></i></td>
-    <td> <i class="fa fa-trash-o" style="font-size:24px"></i></td>
-  </tr>
+
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Duration</th>
+      <th>Genre</th>
+      <th>Language</th>
+      <th>Rated</th>
+      <th>Release Date</th>
+      <th>Image</th>
+      <th>Edit</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    @for (movie of movies; track movie.movie_id) {
+      <tr>
+
+        <td>{{ movie.movie_id }}</td>
+        <td>{{ movie.title }}</td>
+        <td style="font-size:10px;" >{{ movie.description }}</td>
+        <td>{{ movie.duration }} mins</td>
+        <td>{{ movie.genre }}</td>
+        <td>{{ movie.language }}</td>
+        <td>{{ movie.rated }}</td>
+        <td>{{ movie.date | date }}</td>
+
+        <!-- Movie image -->
+        <td>
+          <img 
+            [src]="movie.image" 
+            alt="movie image" 
+            width="80" 
+            height="100" 
+            style="object-fit: cover; border-radius: 4px;"
+          />
+        </td>
+
+        <!-- Edit / Delete -->
+        <td>
+          <i class="fa fa-pencil" style="font-size:22px; cursor:pointer"></i>
+        </td>
+
+        <td>
+          <i class="fa fa-trash-o" style="font-size:22px; cursor:pointer"></i>
+        </td>
+
+      </tr>
+    }
+  </tbody>
+
 </table>
-    </div>
