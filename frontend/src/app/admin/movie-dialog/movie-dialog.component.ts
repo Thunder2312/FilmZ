@@ -22,6 +22,8 @@ export class MovieDialogComponent {
   release_date: ''
   };
 
+  showForm: boolean = true;
+
   
 
   constructor(private http: HttpClient, 
@@ -48,7 +50,7 @@ export class MovieDialogComponent {
       .subscribe({
         next: (res: any) => {
           console.log('Movie Added Successfully:', res.message || res);
-          
+          this.showForm = false;
           this.movieData = {
             title: '',
             description: '',

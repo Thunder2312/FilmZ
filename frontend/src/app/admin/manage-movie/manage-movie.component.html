@@ -1,4 +1,9 @@
-<table class="action-table">
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+/>
+
+<table class="action-table"> 
 
   <thead>
     <tr>
@@ -46,7 +51,8 @@
         </td>
 
         <td>
-          <i class="fa fa-trash-o" style="font-size:22px; cursor:pointer"></i>
+          <i class="fa fa-trash" style="font-size:22px; cursor:pointer"  (click)="removeMovie(movie.movie_id)"></i>
+
         </td>
 
       </tr>

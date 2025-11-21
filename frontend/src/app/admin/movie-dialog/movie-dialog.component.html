@@ -2,8 +2,10 @@
   rel="stylesheet"
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 />
+
 <body>
-  <div class="session">
+@if (showForm) {
+    <div class="session">
     <div class="left">
       <!-- SVG Logo -->
       <svg
@@ -118,5 +120,11 @@
         />
         <label for="date">Date</label>
       </div>
-
+    
       <button class="submit" type="submit" name="Add">Add Movie</button>
+      </form>
+      </div>
+    }
+
+
+ 

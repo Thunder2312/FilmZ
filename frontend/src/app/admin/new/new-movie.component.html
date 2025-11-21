@@ -34,7 +34,9 @@
   }    
 }
 @else{
-       <p *ngIf="search_text">No movies found.</p>
+    @if(search_text){
+    <p>No movies found.</p>
+    }
 }
 
 

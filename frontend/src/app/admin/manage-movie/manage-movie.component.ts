@@ -19,7 +19,7 @@ export class ManageMovieComponent {
     this.getMovie();
   }
 
-  movies: any[] = [];   // <-- Make this accessible to HTML
+  movies: any[] = [];   
 
 getMovie() {
   this.http.get('http://localhost:3000/movies/getMovie').subscribe({
@@ -40,6 +40,20 @@ getMovie() {
     }
   });
 }
+
+removeMovie(movie_id: number) {
+  this.http.post('http://localhost:3000/movies/deactivateMovie', { movie_id }).subscribe({
+    next: (res: any) => {
+      console.log('Movie deactivated:', res);
+      //use this for instantaneous removal from the list on frontend
+      this.movies = this.movies.filter(movie => movie.movie_id !== movie_id);
+    },
+    error: (err) => {
+      console.error('Error deactivating movie:', err);
+    }
+  });
+}
+
 
   
 }
