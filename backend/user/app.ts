@@ -92,6 +92,32 @@ router.delete('/logout', (req:any, res:any) => {
   res.status(200).json({ message: 'Logged out successfully. Discard the token on client.' });
 });
 
+router.get('/approveUser', authenticateToken, checkRole, async(req:any, res:any)=>{
+  try {
+    const result = await pool.query('SELECT * FROM USERS where role_approval=false')
+    res.json(result.rows)
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+})
+
+router.post('/approveUser', authenticateToken, checkRole, async (req:any, res:any) => {
+  try {
+    const { user_id } = req.body;
+    const result = await pool.query(
+      'UPDATE users SET role_approval=true WHERE user_id=$1',
+      [user_id]
+    );
+
+    res.status(200).json({ message: "Approval is done" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server Error' });
+  }
+});
+
+
 
 
 

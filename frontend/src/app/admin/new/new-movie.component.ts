@@ -14,7 +14,7 @@ import { MovieDialogComponent } from '../movie-dialog/movie-dialog.component';
 export class NewMovieComponent {
   search_text = '';
   movieDetails: any = null; // single movie
-  apiKey = ''
+  apiKey = '62cbea78'
 
   constructor(private http: HttpClient, private dialog: MatDialog) {}
   

@@ -47,7 +47,7 @@ router.post('/deactivateMovie', authenticateToken, checkRole, async (req: any, r
       [movie_id]
     );
 
-    if (result.rowCount === 0) {
+    if (result.rowCount !== 0) {
       return res.status(404).json({ error: 'Movie not found' });
     }
 
@@ -57,5 +57,7 @@ router.post('/deactivateMovie', authenticateToken, checkRole, async (req: any, r
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+
 
 module.exports = router;

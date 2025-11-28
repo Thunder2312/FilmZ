@@ -19,7 +19,7 @@ export class HeaderComponent {
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
         this.currentUrl = event.urlAfterRedirects;
-        console.log('Current URL:', this.currentUrl); // ✅ For debugging
+        console.log('Current URL:', this.currentUrl); 
       });
   }
 
@@ -46,10 +46,19 @@ export class HeaderComponent {
     return !this.isAdminPage && !this.isSignUpPage;
   }
 
-  // Show logout on admin routes or anywhere except login/signup
-  get showLogoutButton(): boolean {
-    return this.isAdminPage || (!this.isLoginPage && !this.isSignUpPage);
-  }
+
+
+  // Show logout when user is logged in
+get showLogoutButton(): boolean {
+  return this.isLoggedIn &&
+         !this.isLoginPage &&
+         !this.isSignUpPage;
+}
+
+  get isLoggedIn(): boolean {
+  return !!sessionStorage.getItem('jwtToken');
+}
+
 
   goToLogin() {
     this.router.navigate(['/login']);
