@@ -6,7 +6,7 @@ import { AdminHomeComponent } from './admin/home/admin-home.component';
 import { NewMovieComponent } from './admin/new/new-movie.component';
 import { ManageMovieComponent } from './admin/manage-movie/manage-movie.component';
 import { ApprovalComponent } from './admin/approval/approval.component';
-import { TheatresComponent } from './admin/theatres/theatres.component';
+import { TheatresComponent } from './admin/theaters/theaters.component';
 import { ShowtimesComponent } from './admin/showtimes/showtimes.component';
 export const routes: Routes = [
   { path: '', component: HomeComponent },

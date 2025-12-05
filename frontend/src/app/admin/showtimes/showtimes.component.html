@@ -1,1 +1,98 @@
-<p>showtimes works!</p>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+/>
+
+<table class="action-table"> 
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Duration</th>
+      <th>Genre</th>
+      <th>Language</th>
+      <th>Rated</th>
+      <th>Release Date</th>
+      <th>Image</th>
+      <th>Add showtime</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <!-- Loop through movies -->
+    <ng-container *ngFor="let movie of movies; trackBy: trackByMovie">
+      <tr>
+        <td data-label="ID">{{ movie.movie_id }}</td>
+        <td data-label="Title">{{ movie.title }}</td>
+        <td class="description-col" data-label="Description">{{ movie.description }}</td>
+        <td data-label="Duration">{{ movie.duration }} mins</td>
+        <td data-label="Genre">{{ movie.genre }}</td>
+        <td data-label="Language">{{ movie.language }}</td>
+        <td data-label="Rated">{{ movie.rated }}</td>
+        <td data-label="Release Date">{{ movie.date | date }}</td>
+        <td data-label="Image">
+          <img [src]="movie.image" alt="movie image" />
+        </td>
+        <td data-label="Add">
+          <i class="fa fa-plus" 
+             [class.active]="selectedMovieId === movie.movie_id"
+             (click)="toggleShowtimeAccordion(movie.movie_id)"></i>
+        </td>
+      </tr>
+
+      <!-- Collapsible Showtimes Section -->
+      <tr *ngIf="selectedMovieId === movie.movie_id">
+        <td colspan="10">
+          <div class="showtime-accordion">
+            <div class="showtime-header">
+              <h3>Add Showtimes for: <strong>{{ movie.title }}</strong></h3>
+            </div>
+
+            <div class="showtime-body">
+              <table class="showtime-inner-table">
+                <thead>
+                  <tr>
+                    <th>Theater</th>
+                    <th>Screen</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Price</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <ng-container *ngFor="let theater of theaters; trackBy: trackByTheater">
+                    <ng-container *ngFor="let screenIndex of getScreenArray(theater.total_screens); let i = index">
+                      <tr>
+                        <td>{{ theater.name }}</td>
+                        <td>Screen {{ i + 1 }}</td>
+                        <td>
+                          <input type="time"
+                                 [(ngModel)]="showtimeData[movie.movie_id][theater.theater_id][i].start" />
+                        </td>
+                        <td>
+                          <input type="time"
+                                 [(ngModel)]="showtimeData[movie.movie_id][theater.theater_id][i].end" />
+                        </td>
+                        <td>
+                          <input type="number" min="0"
+                                 [(ngModel)]="showtimeData[movie.movie_id][theater.theater_id][i].price" />
+                        </td>
+                      </tr>
+                    </ng-container>
+                  </ng-container>
+                </tbody>
+              </table>
+
+              <button mat-raised-button color="primary" class="save-btn" 
+                      (click)="saveShowtimes(movie.movie_id)">
+                Save Showtimes
+              </button>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </ng-container>
+  </tbody>
+</table>

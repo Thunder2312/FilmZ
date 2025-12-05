@@ -40,14 +40,6 @@ CREATE TABLE theaters (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-
-CREATE TABLE screens (
-    screen_id SERIAL PRIMARY KEY,
-    theater_id INT NOT NULL REFERENCES theaters(theater_id) ON DELETE CASCADE,
-    name VARCHAR(50),
-    total_seats INT NOT NULL
-);
-
 CREATE TABLE seats (
     seat_id SERIAL PRIMARY KEY,
     screen_id INT NOT NULL REFERENCES screens(screen_id) ON DELETE CASCADE,

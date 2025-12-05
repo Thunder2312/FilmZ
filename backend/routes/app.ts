@@ -6,6 +6,7 @@ const router = express.Router();
 const { authenticateToken } = require('../authentication/authentication'); // Correct import
 const {checkRole} = require('../authentication/checkRole')
 require('dotenv').config();
+
 router.get('/', async (req:any, res:any) => {
   try {
     const result = await pool.query('SELECT * from users');

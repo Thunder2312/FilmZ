@@ -4,56 +4,51 @@ import { FormsModule } from "@angular/forms";
 import { CommonModule } from '@angular/common';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { OnInit } from '@angular/core';
+import { MovieData } from '../movie-dialog/movie-data.model';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MovieStoreService } from '../../services/movie.service';
+
 @Component({
   selector: 'app-manage-movie',
-  imports: [FormsModule, CommonModule, RouterOutlet],
+  imports: [FormsModule, CommonModule, RouterOutlet, MatSnackBarModule],
   templateUrl: './manage-movie.component.html',
   styleUrl: './manage-movie.component.scss'
 })
 export class ManageMovieComponent {
-  constructor(private http: HttpClient){
-  }
+constructor(
+  private movieStore: MovieStoreService,
+  private snackBar: MatSnackBar
+) {}
 
-  
-  ngOnInit(){
-    this.getMovie();
-  }
+movies: MovieData[] = [];
 
-  movies: any[] = [];   
-
-getMovie() {
-  this.http.get('http://localhost:3000/movies/getMovie').subscribe({
-    next: (res: any) => {
-      this.movies = res.result.map((movie: any) => ({
-        movie_id: movie.movie_id,
-        description: movie.description,
-        title: movie.title,
-        duration: movie.duration_minutes,
-        genre: movie.genre,
-        language: movie.language,
-        rated: movie.rated,
-        date: movie.release_date,
-        image: movie.image
-      }));
-
-      console.log(res);
-    }
+ngOnInit() {
+  // Subscribe to movie data (auto-updates)
+  this.movieStore.movies$.subscribe(movies => {
+    this.movies = movies;
   });
+
+  // load once
+  this.movieStore.loadMovies();
 }
 
-removeMovie(movie_id: number) {
-  this.http.post('http://localhost:3000/movies/deactivateMovie', { movie_id }).subscribe({
-    next: (res: any) => {
-      console.log('Movie deactivated:', res);
-      //use this for instantaneous removal from the list on frontend
-      this.movies = this.movies.filter(movie => movie.movie_id !== movie_id);
+removeMovie(id: number) {
+  this.movieStore.removeMovie(id).subscribe({
+    next: () => {
+      this.snackBar.open('Movie removed successfully!', 'Close', {
+        duration: 3000,
+        verticalPosition: 'top',
+        horizontalPosition: 'right',
+      });
     },
-    error: (err) => {
-      console.error('Error deactivating movie:', err);
+    error: () => {
+      this.snackBar.open('Failed to remove movie.', 'Close', {
+        duration: 3000,
+        verticalPosition: 'top',
+        horizontalPosition: 'right',
+      });
     }
   });
 }
 
-
-  
 }

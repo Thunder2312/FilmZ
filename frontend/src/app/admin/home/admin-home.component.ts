@@ -19,7 +19,7 @@ isMenuOpen = false;
 
   links = [
   { label: 'Add Movies', path: 'new-movie' },
-  { label: 'Add Movies in Theatres', path: 'theatres' },
+  { label: 'Manage Theater', path: 'theatres' },
   { label: 'Add ShowTimes', path: 'showtimes' },
   { label: 'Admin Approval', path: 'approval' },
   {label: 'Manage Movie', path: 'manage-movie'}

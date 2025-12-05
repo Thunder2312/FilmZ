@@ -47,16 +47,18 @@ router.post('/deactivateMovie', authenticateToken, checkRole, async (req: any, r
       [movie_id]
     );
 
-    if (result.rowCount !== 0) {
+    // FIXED CONDITION
+    if (result.rowCount === 0) {
       return res.status(404).json({ error: 'Movie not found' });
     }
 
-    res.status(200).json({ message: 'Movie deactivated successfully', movie: result.rows[0] });
+    res.status(200).json({ message: 'Movie deactivated successfully' });
   } catch (error) {
     console.error('Error deactivating movie', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
 
 
 
