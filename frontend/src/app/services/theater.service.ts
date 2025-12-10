@@ -29,7 +29,7 @@ export class theaterService {
             location: theater.location,
             total_screens: theater.total_screens,
             city: theater.city,
-            showTimeStart: 0,
+            showtimeStart: 0,
             showtimeEnd: 0,
             showtimePrice: 0
           }));

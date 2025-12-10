@@ -8,16 +8,17 @@ import { theaterData } from '../../services/theater.model';
 import { FormsModule } from '@angular/forms';
 import { ShowtimePayload } from './showtime.model';
 import { ShowtimeInput } from './showtimeinput.model';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-showtimes',
-  imports: [DatePipe, FormsModule, CommonModule],
+  imports: [DatePipe,
+    FormsModule,
+    CommonModule],
   templateUrl: './showtimes.component.html',
   styleUrl: './showtimes.component.scss'
 })
 export class ShowtimesComponent {
-getScreenArray(count: number): number[] {
-  return Array.from({ length: count }, (_, i) => i);
-}
+
 
 showtimeData: {
   [movieId: number]: { [theaterId: number]: ShowtimeInput[] }
@@ -26,7 +27,8 @@ showtimeData: {
 constructor(
     private movieStore: MovieStoreService,
     private snackBar: MatSnackBar,
-    private theaterStore: theaterService
+    private theaterStore: theaterService,
+    private router: Router
   ) {}
 
   theaters: theaterData[] = [];
@@ -56,75 +58,11 @@ trackByTheater(index: number, theater: any) {
   return theater.theater_id;
 }
 
-
-openShowtimeTable(movieId: number) {
-  this.selectedMovieId = movieId;
-
-  if (!this.showtimeData[movieId]) {
-    this.showtimeData[movieId] = {};
-  }
-
-  for (const theater of this.theaters) {
-    if (!this.showtimeData[movieId][theater.theater_id]) {
-      this.showtimeData[movieId][theater.theater_id] = 
-        Array.from({ length: theater.total_screens }, () => ({
-          start: '',
-          end: '',
-          price: 0
-        }));
-    }
-  }
+goToAddShowtime(movieId: number) {
+  this.router.navigate(['/admin/add-showtimes', movieId]);
 }
 
 
-
-saveShowtimes(movieId: number) {
-  const payload: ShowtimePayload[] = [];
-
-  for (const theater of this.theaters) {
-    const theaterId = theater.theater_id;
-    const screens = this.showtimeData[movieId][theaterId];
-
-    screens.forEach((screen, index) => {
-      payload.push({
-        movie_id: movieId,
-        theater_id: theaterId,
-        screen: index + 1,
-        start: screen.start,
-        end: screen.end,
-        price: screen.price
-      });
-    });
-  }
-
-  console.log("Final payload:", payload);
-}
-
-
-
-toggleShowtimeAccordion(movieId: number) {
-  if (this.selectedMovieId === movieId) {
-    this.selectedMovieId = null; // Collapse if already open
-  } else {
-    this.selectedMovieId = movieId; // Open selected movie
-
-    // Initialize showtimeData if not already
-    if (!this.showtimeData[movieId]) {
-      this.showtimeData[movieId] = {};
-    }
-
-    for (const theater of this.theaters) {
-      if (!this.showtimeData[movieId][theater.theater_id]) {
-        this.showtimeData[movieId][theater.theater_id] =
-          Array.from({ length: theater.total_screens }, () => ({
-            start: '',
-            end: '',
-            price: 0
-          }));
-      }
-    }
-  }
-}
 
 
 

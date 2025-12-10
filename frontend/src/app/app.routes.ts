@@ -8,6 +8,8 @@ import { ManageMovieComponent } from './admin/manage-movie/manage-movie.componen
 import { ApprovalComponent } from './admin/approval/approval.component';
 import { TheatresComponent } from './admin/theaters/theaters.component';
 import { ShowtimesComponent } from './admin/showtimes/showtimes.component';
+import { ManageShowtimeComponent } from './admin/manage-showtime/manage-showtime.component';
+import { AddShowtimeComponent } from './admin/add-showtime/add-showtime.component';
 export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'login', component: LoginCardComponent },
@@ -21,7 +23,9 @@ export const routes: Routes = [
       { path: 'manage-movie', component: ManageMovieComponent },
       {path: 'approval', component: ApprovalComponent},
       {path: 'theatres', component: TheatresComponent},
-      {path: 'showtimes', component: ShowtimesComponent}
+      {path: 'view-showtimes', component: ShowtimesComponent},
+      {path: 'manage-showtimes', component: ManageShowtimeComponent},
+    {path: 'add-showtimes/:movieId', component: AddShowtimeComponent}
     ],
   },
 ];

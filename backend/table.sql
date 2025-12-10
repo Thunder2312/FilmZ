@@ -58,6 +58,13 @@ CREATE TABLE showtimes (
     ticket_price DECIMAL(10,2) NOT NULL
 );
 
+CREATE TABLE screens(
+    screen_id SERIAL PRIMARY KEY;
+    theater_id INT NOT NULL REFERENCES theaters(theater_id) ON DELETE CASCADE,
+    name VARCHAR(20) NOT NULL,
+    total_seats INT NOT NULL
+)
+
 CREATE TABLE bookings (
     booking_id SERIAL PRIMARY KEY,
     user_id INT REFERENCES users(user_id) ON DELETE CASCADE,

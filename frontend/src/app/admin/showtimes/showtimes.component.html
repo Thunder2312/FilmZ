@@ -3,6 +3,9 @@
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 />
 
+
+
+
 <table class="action-table"> 
   <thead>
     <tr>
@@ -35,9 +38,10 @@
           <img [src]="movie.image" alt="movie image" />
         </td>
         <td data-label="Add">
-          <i class="fa fa-plus" 
-             [class.active]="selectedMovieId === movie.movie_id"
-             (click)="toggleShowtimeAccordion(movie.movie_id)"></i>
+          <i class="fa fa-plus"
+   (click)="goToAddShowtime(movie.movie_id)">
+</i>
+
         </td>
       </tr>
 
@@ -61,34 +65,9 @@
                   </tr>
                 </thead>
 
-                <tbody>
-                  <ng-container *ngFor="let theater of theaters; trackBy: trackByTheater">
-                    <ng-container *ngFor="let screenIndex of getScreenArray(theater.total_screens); let i = index">
-                      <tr>
-                        <td>{{ theater.name }}</td>
-                        <td>Screen {{ i + 1 }}</td>
-                        <td>
-                          <input type="time"
-                                 [(ngModel)]="showtimeData[movie.movie_id][theater.theater_id][i].start" />
-                        </td>
-                        <td>
-                          <input type="time"
-                                 [(ngModel)]="showtimeData[movie.movie_id][theater.theater_id][i].end" />
-                        </td>
-                        <td>
-                          <input type="number" min="0"
-                                 [(ngModel)]="showtimeData[movie.movie_id][theater.theater_id][i].price" />
-                        </td>
-                      </tr>
-                    </ng-container>
-                  </ng-container>
-                </tbody>
               </table>
 
-              <button mat-raised-button color="primary" class="save-btn" 
-                      (click)="saveShowtimes(movie.movie_id)">
-                Save Showtimes
-              </button>
+             
             </div>
           </div>
         </td>
