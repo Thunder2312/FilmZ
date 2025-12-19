@@ -1,66 +1,57 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { tap } from 'rxjs/operators';
-import { MovieData  } from '../admin/movie-dialog/movie-data.model';
-import { ShowTime } from './showTime.model';
-@Injectable({
-  providedIn: 'root'
-})
+import { MovieData } from '../admin/movie-dialog/movie-data.model';
+@Injectable({ providedIn: 'root' })
 export class MovieStoreService {
 
   private baseUrl = 'http://localhost:3000/movies';
 
-  // BehaviorSubject holds the current movie list
-  private moviesSubject = new BehaviorSubject<MovieData[]>([]);
-  movies$ = this.moviesSubject.asObservable(); // components subscribe here
+  movies = signal<MovieData[]>([]);
+  selectedMovie = signal<MovieData | null>(null);
+  error = signal<string | null>(null);
+  loading = signal(false);
 
   constructor(private http: HttpClient) {}
 
-  // Load movies from server and update the subject
   loadMovies() {
-    this.http.get<{ result: any[] }>(`${this.baseUrl}/getMovie`)
-      .pipe(
-        tap(res => {
-          const movies = res.result.map(movie => ({
-            movie_id: movie.movie_id,
-            title: movie.title,
-            description: movie.description,
-            duration: movie.duration_minutes,
-            genre: movie.genre,
-            language: movie.language,
-            rated: movie.rated,
-            date: movie.release_date,
-            image: movie.image
-          }));
-          this.moviesSubject.next(movies);
-        })
-      )
-      .subscribe();
+    this.loading.set(true);
+    this.error.set(null);
+
+    this.http.get<{ result: MovieData[] }>(`${this.baseUrl}/getMovie`)
+      .subscribe({
+        next: (res) => {
+          this.movies.set(res.result);
+          this.loading.set(false);
+        },
+        error: () => {
+          this.loading.set(false);
+          this.error.set('Failed to load movies');
+        }
+      });
   }
 
-  // Remove movie and update subject
-  removeMovie(movie_id: number) {
-    return this.http.post(`${this.baseUrl}/deactivateMovie`, { movie_id }).pipe(
-      tap(() => {
-        const updated = this.moviesSubject
-          .value
-          .filter(movie => movie.movie_id !== movie_id);
+  loadMovieById(id: number) {
+    this.loading.set(true);
+    this.error.set(null);
 
-        this.moviesSubject.next(updated);
-      })
+    this.http.get<{ result: MovieData }>(
+      `${this.baseUrl}/getMovie/${id}`
+    ).subscribe({
+      next: (res) => {
+        this.selectedMovie.set(res.result);
+        this.loading.set(false);
+      },
+      error: (err) => {
+        this.loading.set(false);
+        this.selectedMovie.set(null);
+        this.error.set(err.error?.message || 'Movie is inactive');
+      }
+    });
+  }
+
+  removeMovie(movieId: number) {
+    return this.http.delete(
+      `${this.baseUrl}/deleteMovie/${movieId}`
     );
   }
-
-  
-  // Add a showtime for a movie
-  addShowtime(showtime: ShowTime): Observable<any> {
-    return this.http.post('/api/showtimes', showtime);
-  }
-
-  // Add multiple showtimes at once
-  addMultipleShowtimes(showtimes: ShowTime[]): Observable<any> {
-    return this.http.post('/api/showtimes/bulk', showtimes);
-  }
 }
-

@@ -2,10 +2,10 @@ export interface MovieData {
   movie_id: number;
   title: string;
   description: string;
-  duration: number;      
+  duration_minutes: number;      
   genre: string;
   language: string;
   rated: string;
-  date: string;          
+  release_date: string;          
   image: string;
 }

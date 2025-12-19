@@ -26,37 +26,43 @@
       </svg>
     </div>
 
-    <form (ngSubmit)="onSubmit()" #loginForm="ngForm" autocomplete="off">
+<form (submit)="onSubmit($event)">
+    
+    <div class="floating-label">
+      <input
+        type="text"
+        id="username"
+        placeholder="Username"
+        [formControl]="username"
+      />
+      <label for="username">Username:</label>
 
-      <div class="floating-label">
-        <input
-          type="text"
-          name="username"
-          id="username"
-          placeholder="Username"
-          [(ngModel)]="enteredUsername"
-          required
-        />
-        <label for="username">Username:</label>
+      <div class="error" *ngIf="username.touched && username.invalid">
+        Username is required.
       </div>
+    </div>
 
-      <div class="floating-label">
-        <input
-          type="password"
-          name="password"
-          id="password"
-          class="password-input"
-          placeholder="Password"
-          [(ngModel)]="enteredPassword"
-          appPasswordToggle
-          required
-        />
-        <label for="password">Password:</label>
+    <div class="floating-label">
+      <input
+        type="password"
+        id="password"
+        class="password-input"
+        placeholder="Password"
+        [formControl]="password"
+        appPasswordToggle
+      />
+      <label for="password">Password:</label>
+@if(password.touched && password.invalid){
+<div class="error" >
+        Password is required.
       </div>
+}
+      
+    </div>
 
-      <button class="submit" type="submit" name="Login">Login</button>
+    <button class="submit" type="submit">Login</button>
+@if(loginError){    <div class="error">{{ loginError }}</div>
+}
 
-      <div *ngIf="loginError" class="error">{{ loginError }}</div>
-    </form>
-  </div>
-</body>
+      </form>
+</div>

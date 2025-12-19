@@ -12,6 +12,16 @@ router.get('/getTheater', authenticateToken, checkRole, async(req:any, res:any)=
      res.status(200).json({result: result.rows})
 })
 
+//using this for showtimes
+router.get('/theaters', authenticateToken, checkRole, async (req:any, res:any) => {
+  const result = await pool.query(
+    'SELECT theater_id, name FROM theaters ORDER BY name'
+  );
+
+  res.status(200).json(result.rows);
+});
+
+
 router.post('/addTheater', authenticateToken, checkRole, async (req: any, res: any) => {
     try {
         const { name, location, total_screens, city } = req.body;

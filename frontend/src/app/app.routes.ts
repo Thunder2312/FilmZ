@@ -23,7 +23,7 @@ export const routes: Routes = [
       { path: 'manage-movie', component: ManageMovieComponent },
       {path: 'approval', component: ApprovalComponent},
       {path: 'theatres', component: TheatresComponent},
-      {path: 'view-showtimes', component: ShowtimesComponent},
+      {path: 'add-showtimes', component: ShowtimesComponent},
       {path: 'manage-showtimes', component: ManageShowtimeComponent},
     {path: 'add-showtimes/:movieId', component: AddShowtimeComponent}
     ],

@@ -21,7 +21,7 @@
   </thead>
 
   <tbody>
-    @for (movie of movies; track movie.movie_id) {
+    @for (movie of movies(); track movie.movie_id) {
       <tr>
 <td data-label="ID">{{ movie.movie_id }}</td>
 <td data-label="Title">{{ movie.title }}</td>
@@ -30,11 +30,11 @@
   {{ movie.description }}
 </td>
 
-<td data-label="Duration">{{ movie.duration }} mins</td>
+<td data-label="Duration">{{ movie.duration_minutes }} mins</td>
 <td data-label="Genre">{{ movie.genre }}</td>
 <td data-label="Language">{{ movie.language }}</td>
 <td data-label="Rated">{{ movie.rated }}</td>
-<td data-label="Release Date">{{ movie.date | date }}</td>
+<td data-label="Release Date">{{ movie.release_date | date }}</td>
 
 <td data-label="Image">
   <img [src]="movie.image" alt="movie image" />

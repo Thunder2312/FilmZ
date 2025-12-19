@@ -55,10 +55,10 @@ router.post('/login', async(req:any, res:any)=>{
     if(!username || !password){
       return res.status(400).json({ error: 'Missing required fields' });
     }
-    //pull password
+    //password kheecho database me se
     const result = await pool.query(`SELECT * from users where username=$1`,[username])
     const user = result.rows[0];
-    //compare password
+    //password compare karo
     const approved = user.role_approval;
 
     if(!approved){

@@ -9,38 +9,39 @@ require('dotenv').config();
 
 router.get('/getShowTimes', authenticateToken, checkRole, async (req: any, res: any) => {
     try {
-        const { startDate, endDate } = req.query;
-//get movie title, theater name, screen name, start time of movie, end time of movie, order by date of the showtime
-        const sql = `
-            SELECT 
-                st.showtime_id,
-                m.title AS movie_title,
-                t.name AS theater_name,
-                s.name AS screen_name,
-                st.start_time,
-                st.end_time,
-                st.ticket_price
-            FROM showtimes st
-            JOIN movies m ON st.movie_id = m.movie_id
-            JOIN screens s ON st.screen_id = s.screen_id
-            JOIN theaters t ON s.theater_id = t.theater_id
-            WHERE ($1::date IS NULL OR st.start_time::date >= $1::date)
-              AND ($2::date IS NULL OR st.start_time::date <= $2::date)
-            ORDER BY st.start_time ASC;
-        `;
+    let { startDate, endDate } = req.query;
 
-        const params = [
-            startDate || null,
-            endDate || null
-        ];
+    const today = new Date().toISOString().split("T")[0]; // "YYYY-MM-DD"
 
-        const result = await pool.query(sql, params);
+    startDate = startDate || today;
+    endDate   = endDate   || today;
 
-        res.json(result.rows);
-    } catch (err: any) {
-        console.error(err);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
+    const sql = `
+        SELECT 
+            st.showtime_id,
+            m.title AS movie_title,
+            t.name AS theater_name,
+            s.name AS screen_name,
+            st.start_time,
+            st.end_time,
+            st.ticket_price
+        FROM showtimes st
+        JOIN movies m ON st.movie_id = m.movie_id
+        JOIN screens s ON st.screen_id = s.screen_id
+        JOIN theaters t ON s.theater_id = t.theater_id
+        WHERE st.start_time::date >= $1::date
+          AND st.start_time::date <= $2::date
+        ORDER BY st.start_time ASC;
+    `;
+
+    const result = await pool.query(sql, [startDate, endDate]);
+
+    res.json(result.rows);
+} catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal Server Error' });
+}
+
 });
 
 

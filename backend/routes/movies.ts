@@ -34,6 +34,31 @@ router.get('/getMovie', authenticateToken, checkRole, async(req:any, res:any, ne
     res.status(200).json({result: result.rows})
 })
 
+router.get('/getMovie/:movieId', authenticateToken, checkRole, async (req: any, res: any, next: any) => {
+  try {
+    const { movieId } = req.params;
+
+    const result = await pool.query('SELECT * FROM movies WHERE movie_id = $1', [movieId]);
+
+    const movie = result.rows[0];
+
+    if (!movie) {
+      return res.status(404).json({ message: 'Movie not found' });
+    }
+
+    // Check if the movie is inactive
+    if (movie.is_active === false) {
+      return res.status(403).json({ message: 'Movie is inactive' });
+    }
+
+    res.status(200).json({ result: movie });
+  } 
+  catch (err) {
+    next(err);
+  }
+});
+
+
 router.post('/deactivateMovie', authenticateToken, checkRole, async (req: any, res: any) => {
   try {
     const { movie_id } = req.body;

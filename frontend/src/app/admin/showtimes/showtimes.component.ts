@@ -36,10 +36,9 @@ constructor(
 
   selectedMovieId: number | null = null;   // <— NEW
 
-  ngOnInit() {
-    this.movieStore.movies$.subscribe(movies => {
-      this.movies = movies;
-    });
+ngOnInit() {
+  this.movieStore.loadMovies();
+  this.movies = this.movieStore.movies(); // ✅ read signal value
 
     this.movieStore.loadMovies();
 
@@ -48,6 +47,7 @@ constructor(
       this.theaters = t;
     });
     this.theaterStore.loadTheaters();
+    
   }
 
 trackByMovie(index: number, movie: any) {

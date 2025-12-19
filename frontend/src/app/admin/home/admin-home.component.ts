@@ -20,7 +20,7 @@ isMenuOpen = false;
   links = [
   { label: 'Add Movies', path: 'new-movie' },
   { label: 'Manage Theater', path: 'theatres' },
-  { label: 'Add ShowTimes', path: 'view-showtimes' },
+  { label: 'Add ShowTimes', path: 'add-showtimes' },
   { label: 'Admin Approval', path: 'approval' },
   {label: 'Manage Movie', path: 'manage-movie'},
   {label: 'Manage ShowTimes', path:  'manage-showtimes'}
