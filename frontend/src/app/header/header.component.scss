@@ -1,27 +1,43 @@
 .header {
-    background-color: black;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: space-between; /* pushes left & right items to edges */
-    padding: 10px 20px; /* optional horizontal padding */
-    width: 100vw; /* make header full screen width */
-    box-sizing: border-box; /* include padding in width */
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  background-color: black;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* logo left, buttons right */
+  padding: 10px 10px;
+  width: 100vw;
+  box-sizing: border-box;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 img {
-    margin: 0;
-    width: 100px;
-    height: 50px;
-    background-color: transparent;
+  margin: 0;
+  width: 100px;
+  height: 50px;
+  background-color: transparent;
 }
 
-button {    
-  background-color: cyan;
-  color: black;
-  border-radius: 5px;
-  padding: 10px 20px;
+/* New wrapper for buttons */
+.header-buttons {
+  display: flex;
+  gap: 10px; /* space between login and signup */
+}
+
+button{
+  background-color: rgb(182, 157, 230);
+  color: #fff;
+  border-radius: 24px;
+  text-align: center;
+  padding: 14px 30px;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  transition: all 0.3s ease;
+  align-self: flex-end;
   cursor: pointer;
-  font-size: 16px;
+}
+
+button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 2px 6px -1px rgba(182, 157, 230, 0.65);
 }

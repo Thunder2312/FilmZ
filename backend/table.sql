@@ -1,19 +1,16 @@
--- ============================
--- USERS: Registered customers
--- ============================
+
 CREATE TABLE users (
     user_id SERIAL PRIMARY KEY,
-    username VARCHAR(100) NOT NULL,
+    username VARCHAR(100) UNIQUE NOT NULL,
     full_name VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
-    phone VARCHAR(20),
-    password_hash TEXT NOT NULL,
+    phone VARCHAR(20) UNIQUE NOT NULL,
+    hash TEXT NOT NULL,
+    role VARCHAR(20) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- ============================
--- GUESTS: Non-registered users
--- ============================
+
 CREATE TABLE guests (
     guest_id SERIAL PRIMARY KEY,
     full_name VARCHAR(100) NOT NULL,
@@ -29,7 +26,7 @@ CREATE TABLE movies (
     duration_minutes INT NOT NULL,
     genre VARCHAR(50),
     language VARCHAR(50),
-    rating VARCHAR(10), -- e.g. PG-13, R
+    rated VARCHAR(10), -- e.g. PG-13, R
     release_date DATE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -41,14 +38,6 @@ CREATE TABLE theaters (
     location TEXT NOT NULL,
     total_screens INT DEFAULT 1,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-
-CREATE TABLE screens (
-    screen_id SERIAL PRIMARY KEY,
-    theater_id INT NOT NULL REFERENCES theaters(theater_id) ON DELETE CASCADE,
-    name VARCHAR(50),
-    total_seats INT NOT NULL
 );
 
 CREATE TABLE seats (
@@ -68,6 +57,13 @@ CREATE TABLE showtimes (
     end_time TIMESTAMP NOT NULL,
     ticket_price DECIMAL(10,2) NOT NULL
 );
+
+CREATE TABLE screens(
+    screen_id SERIAL PRIMARY KEY;
+    theater_id INT NOT NULL REFERENCES theaters(theater_id) ON DELETE CASCADE,
+    name VARCHAR(20) NOT NULL,
+    total_seats INT NOT NULL
+)
 
 CREATE TABLE bookings (
     booking_id SERIAL PRIMARY KEY,
