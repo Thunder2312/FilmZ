@@ -10,7 +10,8 @@ Database: PostgreSQL
 
 Authentication: JSON Web Tokens (JWT)
 
-✨ Features
+✨ 
+Features
 User Authentication: Secure login and registration with encrypted passwords.
 
 Movie Catalog: Browse movies by genre, language, and current/upcoming status.
