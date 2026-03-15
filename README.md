@@ -1,6 +1,7 @@
 A full-stack web application that allows users to browse currently showing movies, select showtimes, and book seats through an interactive UI. Built with a robust backend to handle concurrent bookings and secure user authentication.
 
 🚀 Tech Stack
+
 Frontend: Angular, TypeScript, HTML5, SCSS
 
 Backend: Node.js, Express.js
